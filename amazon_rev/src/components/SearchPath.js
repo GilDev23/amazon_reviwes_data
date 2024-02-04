@@ -4,9 +4,11 @@ import React, { useState } from "react";
 const SearchPath = () => {
   const [searchWord, setSearchWord] = useState("");
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     try {
+      setLoading(true);
       const URL = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.get(
         `${URL}/api/searchReviews?word=${searchWord}`
@@ -14,6 +16,9 @@ const SearchPath = () => {
       setData(response.data);
     } catch (error) {
       console.error("Error fetching search data:", error);
+      // Display an error message to the user
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -26,13 +31,19 @@ const SearchPath = () => {
       );
     }
 
-    return data.map((row, index) => (
-      <tr key={index}>
+    return data.map((row) => (
+      <tr key={row.id}>
         <td>{row["0"] === "1" ? "Negative" : "Positive"}</td>
         <td>{row["1"]}</td>
         <td>{row["2"]}</td>
       </tr>
     ));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -43,9 +54,11 @@ const SearchPath = () => {
           placeholder="Search reviews..."
           value={searchWord}
           onChange={(e) => setSearchWord(e.target.value)}
-          key="search-input"
+          onKeyDown={handleKeyDown}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch} disabled={loading}>
+          {loading ? "Searching..." : "Search"}
+        </button>
       </div>
       <div className="container">
         {data.length > 0 && (
