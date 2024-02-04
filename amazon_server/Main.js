@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 const result = [];
 const pageSize = 10; // Set the number of items per page
-const port = 3002;
+const port = process.env.PORT || 3002;
 
 app.use(cors()); // Enable CORS for all routes
 

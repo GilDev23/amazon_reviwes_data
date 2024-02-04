@@ -9,8 +9,9 @@ const PopolurNegative = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const URL = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(
-          `http://localhost:3002/api/getPopolurNegativeResponses?page=${currentPage}`
+          `${URL}/api/getPopolurNegativeResponses?page=${currentPage}`
         );
         setData(response.data);
       } catch (error) {

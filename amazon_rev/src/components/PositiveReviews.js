@@ -9,12 +9,14 @@ const PositiveReviews = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const URL = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(
-          `http://localhost:3002/api/getPositiveResponses?page=${currentPage}`
+          `${URL}/api/getPositiveResponses?page=${currentPage}`
         );
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+        // Handle error state or display an error message to the user
       }
     };
 

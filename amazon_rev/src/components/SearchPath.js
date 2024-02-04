@@ -7,8 +7,9 @@ const SearchPath = () => {
 
   const handleSearch = async () => {
     try {
+      const URL = process.env.REACT_APP_BACKEND_URL;
       const response = await axios.get(
-        `http://localhost:3002/api/searchReviews?word=${searchWord}`
+        `${URL}/api/searchReviews?word=${searchWord}`
       );
       setData(response.data);
     } catch (error) {

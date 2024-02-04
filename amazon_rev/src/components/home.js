@@ -11,8 +11,9 @@ const Test = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const URL = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(
-          `http://localhost:3002/api/getItems?page=${currentPage}`
+          `${URL}/api/getItems?page=${currentPage}`
         );
         setData(response.data);
       } catch (error) {
